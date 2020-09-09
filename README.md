@@ -1,4 +1,4 @@
-# Proxy Bringer
+# The Proxy Bringer
 Python class that checks free proxy addresses periodically and brings up-to-date proxy.
 
 ## Usage
@@ -12,6 +12,6 @@ proxy = proxy_bringer.get_proxy()
 
 ##### Defaults
 ```python
-debug=True #print processes
+debug=False #print processes
 check_interval=60 #second
 ```
