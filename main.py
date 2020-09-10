@@ -22,6 +22,10 @@ class ProxyBringer:
         self.debug = debug
         self.check_interval = check_interval
 
+    def log(self, string):
+        if self.debug:
+            print(string)
+
     def get_proxies_from_url(self, source):
         response = requests.get(source)
         soup = BeautifulSoup(response.content, 'html.parser')
@@ -36,27 +40,23 @@ class ProxyBringer:
     def get_proxy(self):
         if len(self.proxies) > 0:
             proxy = self.proxies.pop(0)
-            if self.debug:
-                print(proxy + " Proxy Getting...")
+            self.log(proxy + " Proxy Getting...")
             self.used_proxies.append(proxy)
             return proxy
         else:
             return None
 
     def check_all_proxy_urls(self):
-        if self.debug:
-            print("Checking all proxy sources..")
+        self.log("Checking all proxy sources..")
         while True:
             for url in self.proxy_urls:
                 try:
                     self.get_proxies_from_url(url)
                 except:
-                    print(url + " Checking Error!")
-                if self.debug:
-                    print(url + " Checked!")
+                    self.log(url + " Checking Error!")
+                self.log(url + " Checked!")
             sleep(self.check_interval)
 
     def start(self):
-        if self.debug:
-            print("Starting proxy service..")
+        self.log("Starting proxy service..")
         Thread(target=self.check_all_proxy_urls).start()
